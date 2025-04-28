@@ -12,12 +12,6 @@ V = TypeVar("V")
 
 @dataclass
 class WorkingData(Generic[T]):
-    """
-        This should be how python implements the List structure.
-        Just like every other good language...
-        More features will be added when I need them.
-        - Gabe :)
-    """
     data: Iterable[T]
 
     def __iter__(self):
