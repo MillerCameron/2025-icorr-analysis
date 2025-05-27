@@ -1,4 +1,4 @@
-name: ROS 2 CI
+name: Build and Test Ros Packages
 
 on:
   push:
@@ -22,7 +22,6 @@ jobs:
       - name: Set up colcon workspace
         run: |
           mkdir -p ros2_ws/src
-          cp -r * ros2_ws/src/
           cd ros2_ws
           rosdep update
           rosdep install --from-paths src --ignore-src -r -y
