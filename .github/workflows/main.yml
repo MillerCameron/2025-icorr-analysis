@@ -19,7 +19,7 @@ jobs:
         with:
           distribution: humble
 
-      - name: Set up colcon workspace
+      - name: build and run
         run: |
           mkdir -p ros2_ws/src
           # Symlink package if it's not already in src
@@ -27,10 +27,7 @@ jobs:
           cd ros2_ws
           rosdep update
           rosdep install --from-paths src --ignore-src -r -y
-          
-      - name: Build
-        run: |
-          cd ros2_ws
+            cd ros2_ws
           source /opt/ros/humble/setup.bash
           colcon build --event-handlers console_cohesion+
           ls
