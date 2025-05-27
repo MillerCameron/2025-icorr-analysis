@@ -8,35 +8,34 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Set up ROS 2 (Humble)
+      - name: Set up ROS 2
         uses: ros-tooling/setup-ros@v0.7
         with:
           distribution: humble
 
-      - name: Install dependencies
+      - name: Set up colcon workspace
         run: |
-          sudo apt update
-          sudo apt install -y python3-colcon-common-extensions
-
-      - name: Install rosdep dependencies
-        run: |
-          sudo rosdep init || true
+          mkdir -p ros2_ws/src
+          cp -r * ros2_ws/src/
+          cd ros2_ws
           rosdep update
           rosdep install --from-paths src --ignore-src -r -y
 
-      - name: Build workspace
+      - name: Build
         run: |
+          cd ros2_ws
           source /opt/ros/humble/setup.bash
           colcon build --event-handlers console_cohesion+
 
-      - name: Run tests
+      - name: Test
         run: |
+          cd ros2_ws
           source install/setup.bash
           colcon test
           colcon test-result --verbose
