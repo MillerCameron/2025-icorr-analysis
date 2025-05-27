@@ -36,6 +36,7 @@ jobs:
           rosdep update
           rosdep install --from-paths src --ignore-src -r -y
 
+          ls
           echo "Building packages..."
           source /src/opt/ros/humble/setup.bash
           colcon build --event-handlers console_cohesion+
