@@ -38,7 +38,9 @@ jobs:
 
           ls
           echo "Building packages..."
-          source /src/opt/ros/humble/setup.bash
+          cd src
+          ls
+          source /opt/ros/humble/setup.bash
           colcon build --event-handlers console_cohesion+
           ls
 
