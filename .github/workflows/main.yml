@@ -32,7 +32,8 @@ jobs:
           ln -sfn "$GITHUB_WORKSPACE" "ros2_ws/src/$PACKAGE_NAME"
             
           cd ros2_ws
-          colcon build --symlink-install
+          colcon build 
+          ls
           source /opt/ros/humble/setup.bash
           
       
