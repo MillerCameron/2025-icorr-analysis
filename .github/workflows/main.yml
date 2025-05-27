@@ -28,7 +28,8 @@ jobs:
           mkdir -p ros2_ws/src
           
           echo "Linking package into workspace..."
-          ln -s "$GITHUB_WORKSPACE" ros2_ws/src/your_package_name
+          PACKAGE_NAME=$(basename "$GITHUB_WORKSPACE")
+          ln -sfn "$GITHUB_WORKSPACE" "ros2_ws/src/$PACKAGE_NAME"
 
           echo "Installing dependencies..."
           cd ros2_ws
