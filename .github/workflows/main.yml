@@ -19,7 +19,7 @@ jobs:
         with:
           distribution: humble
 
-      - name: Build and Test
+      - name: Build Colcon Workspace
         shell: bash
         run: |
           set -e
@@ -30,21 +30,16 @@ jobs:
           echo "Linking package into workspace..."
           PACKAGE_NAME=$(basename "$GITHUB_WORKSPACE")
           ln -sfn "$GITHUB_WORKSPACE" "ros2_ws/src/$PACKAGE_NAME"
-
-          echo "Installing dependencies..."
+            
           cd ros2_ws
-          rosdep update
-          rosdep install --from-paths src --ignore-src -r -y
-          colcon build
-          ls
-          echo "Building packages..."
-          cd src
-          ls
+          colcon build --symlink-install
           source /opt/ros/humble/setup.bash
-          colcon build --event-handlers console_cohesion+
-          ls
-
-          echo "Running tests..."
+          
+      
+      - name: run and test
+        shell: bash
+        run: |
+          cd ros2_ws
           source install/setup.bash
           colcon test
           colcon test-result --verbose
