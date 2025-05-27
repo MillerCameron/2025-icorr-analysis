@@ -1,4 +1,4 @@
-name: Build and Test Ros Packages
+name: Build and Test ROS Packages
 
 on:
   push:
@@ -19,21 +19,28 @@ jobs:
         with:
           distribution: humble
 
-      - name: build and run
+      - name: Build and Test
+        shell: bash
         run: |
+          set -e
+
+          echo "Setting up workspace..."
           mkdir -p ros2_ws/src
-          # Symlink package if it's not already in src
-          ln -s $GITHUB_WORKSPACE ros2_ws/src/your_package_name
+          
+          echo "Linking package into workspace..."
+          ln -s "$GITHUB_WORKSPACE" ros2_ws/src/your_package_name
+
+          echo "Installing dependencies..."
           cd ros2_ws
           rosdep update
           rosdep install --from-paths src --ignore-src -r -y
+
+          echo "Building packages..."
           source /opt/ros/humble/setup.bash
           colcon build --event-handlers console_cohesion+
           ls
 
-      - name: Test
-        run: |
-          cd ros2_ws
+          echo "Running tests..."
           source install/setup.bash
           colcon test
           colcon test-result --verbose
